@@ -1,0 +1,12 @@
+from heros import Heros
+from monstre import Monstre
+
+class FabriquePersonnage:
+    @staticmethod
+    def creer_personnage(type_personnage, nom, pv, arme):
+        if type_personnage == "heros":
+            return Heros(nom, pv, arme)
+        elif type_personnage == "monstre":
+            return Monstre(nom, pv, arme)
+        else:
+            raise ValueError("Type de personnage inconnu")
