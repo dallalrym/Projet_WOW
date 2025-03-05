@@ -10,3 +10,4 @@ class FabriquePersonnage:
             return Monstre(nom, pv, arme)
         else:
             raise ValueError("Type de personnage inconnu")
+        
