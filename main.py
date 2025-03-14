@@ -14,7 +14,7 @@ def main():
     equipe_monstres = EquipeMonstres("Monstres")
 
     # Creation des personnages
-    heros1 = factory.creer_personnage("Heros", "Arthur", 100, "Epee")
+    heros1 = factory.creer_personnage("Heros", "Arthur", 100, "Epee", 100, [epee1, gourdin1])
     monstre1 = factory.creer_personnage("Monstre", "Grum", 120, "Gourdin")
 
     # Ajout des perso aux equipes

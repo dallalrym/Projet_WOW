@@ -1,24 +1,44 @@
 from arme.Epee import Epee
 from arme.Gourdin import Gourdin
+from item.Nourriture import Nourriture
 from personnages.Heros import Heros
 from personnages.Monstre import Monstre
 
 
+
 class PersonnageFactory:
-    def creer_personnage(self, type_personnage, nom, points_de_vie, type_arme):
-        arme = self.creer_arme(type_arme)
+    @staticmethod
+    def creer_personnage(type_personnage, nom, points_de_vie, arme, endu, sacoche, arme_equipee=None, bouclier_equipe=None):
         if type_personnage == "Heros":
-            return Heros(nom, points_de_vie, arme)
+            return Heros(nom, points_de_vie, arme, endu, sacoche, arme_equipee, bouclier_equipe)
         elif type_personnage == "Monstre":
-            return Monstre(nom, points_de_vie, arme)
+            return Monstre(nom, points_de_vie, arme, endu, sacoche, arme_equipee, bouclier_equipe)
         else:
             raise ValueError("Type de personnage inconnu")
 
     @staticmethod
-    def creer_arme(type_arme):
+    def creer_arme(nom, degats, longueur, poids, type_arme):
         if type_arme == "Epee":
-            return Epee("Excalibur", 15, 100, 2000)
+            epee = Epee(nom, degats, longueur, poids, type_arme)
+            print(epee)
+            return epee
         elif type_arme == "Gourdin":
-            return Gourdin("L'abattoir", 20, 80, 3000)
+            gourdin = Gourdin(nom, degats, longueur, poids, type_arme)
+            print(gourdin)
+            return gourdin
         else:
             raise ValueError("Type d'arme inconnue")
+
+    @staticmethod
+    def creer_nourriture(nom, recup, poids):
+        nourriture = Nourriture(nom, recup, poids)
+        print(nourriture)
+        return nourriture
+
+
+factory = PersonnageFactory()
+epee1 = factory.creer_arme("Excalibur", 15, 100, 2000, "Epee")
+gourdin1 = factory.creer_arme("L'abattoir", 20, 80, 3000, "Gourdin")
+nourriture1 = factory.creer_nourriture("pomme", 10, 5)
+arthur = factory.creer_personnage("Heros", "Arthur", 100, "Epee", 100, [epee1, gourdin1, nourriture1])
+arthur.afficher_stats()
