@@ -1,2 +1,52 @@
-# Ignorer le dossier UML
-/UML
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environnements virtuels
+venv/
+env/
+.venv/
+.env/
+
+# Fichiers de logs
+*.log
+
+# Fichiers de configuration sensibles
+.env
+*.env
+
+# Fichiers de test ou de debug
+*.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+
+# IDEs et éditeurs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# MacOS
+.DS_Store
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Caches
+.cache/
+.mypy_cache/
+.pyre/
+.pytype/
+
+# Fichiers de base de données temporaires
+*.sqlite3
+*.db
+
+# Dossiers de build
+build/
+dist/
+*.egg-info/
