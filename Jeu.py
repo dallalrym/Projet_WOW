@@ -26,7 +26,7 @@ class Jeu:
         bouclier1 = PersonnageFactory.creer_bouclier("Durnvall", 5, 5)
 
         # Creation des personnages
-        heros1 = PersonnageFactory.creer_personnage("Heros", "Arthur", 100, 100, 5, [epee1, gourdin1, nourriture1], arme_equipee=epee1)
+        heros1 = PersonnageFactory.creer_personnage("Heros", "Arthur", 500, 100, 5, [epee1, gourdin1, nourriture1], arme_equipee=epee1)
         monstre1 = PersonnageFactory.creer_personnage("Monstre", "Grum", 120,42, 10, [epee1, gourdin1, nourriture1], arme_equipee=gourdin1, bouclier_equipe=bouclier1)
 
         # Ajout des perso aux equipes
@@ -41,15 +41,9 @@ class Jeu:
         monstre1.afficher_stats()
         heros1.afficher_stats()
 
-    def placer_personnages(self):
-        personnages = self.heros + self.monstres
-        random.shuffle(personnages)  # Mélanger pour éviter les biais de placement
-
-        for personnage in personnages:
-            while not self.zone.placer_personnage(personnage):
-            # Si la position est déjà occupée, trouver une nouvelle position aléatoire
-                personnage.x = random.randint(0, 9)
-                personnage.y = random.randint(0, 9)
+        self.zone.placer_personnage(heros1)
+        self.zone.placer_personnage(monstre1)
+        
 
     def trouver_cible(self, attaquant):
         # Trouver une cible adjacente
@@ -70,6 +64,8 @@ class Jeu:
         random.shuffle(personnages)
 
         for personnage in personnages:
+            print(f"--- {personnage.nom} commence son tour ---")
+            print(f"PV : {personnage.points_de_vie}, Endurance : {personnage.endu}, Position : ({personnage.x}, {personnage.y})")
             if personnage.points_de_vie <= 0:
                 continue  # Passe au personnage suivant si celui-ci est mort
 
@@ -77,19 +73,37 @@ class Jeu:
             action = random.choice(["se_deplacer", "dormir", "attaquer", "fuir"])
 
             if action == "se_deplacer":
+                print(f"{personnage.nom} tente de faire l'action : {action}")
                 direction = random.choice(["Nord", "Sud", "Est", "Ouest"])
-                personnage.deplacement(direction)
+                result = personnage.deplacement(direction)
+                if result:
+                    nouvelle_x, nouvelle_y, endu_conso = result
+                    if self.zone.deplacer_personnage(personnage, nouvelle_x, nouvelle_y):
+                        personnage.endu -= endu_conso
+                        print(f"{personnage.nom} se déplace vers {direction} et consomme {endu_conso:.4f} d'endurance. Endurance restante : {personnage.endu:.2f}")
+                    else:
+                        print(f"{personnage.nom} ne peut pas se déplacer vers {direction}, case occupée.")
 
             elif action == "dormir":
+                print(f"{personnage.nom} tente de faire l'action : {action}")
                 personnage.dormir()
 
             elif action == "attaquer":
+                print(f"{personnage.nom} tente de faire l'action : {action}")
                 cible = self.trouver_cible(personnage)
                 if cible:
                     personnage.attaquer(cible)
 
             elif action == "fuir":
-                personnage.fuir()
+                print(f"{personnage.nom} tente de faire l'action : {action}")
+                result = personnage.fuir()
+                if result:
+                    nx, ny, conso, direction = result
+                    if self.zone.deplacer_personnage(personnage, nx, ny):
+                        personnage.endu -= conso
+                        print(f"{personnage.nom} fuit vers le {direction} et consomme {conso:.4f} d'endurance. Endurance restante : {personnage.endu:.2f}")
+                    else:
+                        print(f"{personnage.nom} ne peut pas fuir vers le {direction}, case occupée.")
 
         # Ajout des personnages morts dans le cimetière en les retirant de leur équipe
         """EquipeHeros.retirer_mort(Cimetiere)
@@ -97,9 +111,8 @@ class Jeu:
         """
 
         # Afficher la zone après chaque tour
-        """
-        Zone.afficher_zone(Zone)
-        """
+        self.zone.afficher_zone()
+        
 
     def demarrer(self):
     # Préparer le jeu en créant les équipes et en plaçant les personnages
@@ -114,4 +127,3 @@ class Jeu:
             print("Les monstres ont gagné !")
         else:
             print("Les héros ont gagné !")
-
