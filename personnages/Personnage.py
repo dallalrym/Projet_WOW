@@ -1,9 +1,6 @@
 import random
 from item.Nourriture import Nourriture
 
-
-
-
 class Personnage:
     def __init__(self, nom, points_de_vie, endu, force, sacoche, arme_equipee=None, bouclier_equipe=None):
         self.nom = nom
@@ -111,143 +108,71 @@ class Personnage:
 
     # Déplacement
     def deplacement(self, direction):
-        nouvelle_x, nouvelle_y = self.x, self.y
-        if not self.bouclier_equipe:
-            charge = self.arme_equipee.poids
-            endu_conso = charge/(self.force*1000)
-            if self.endu < endu_conso:
-                print(f"{self.nom} ne peut pas se déplacer car il n'a pas assez d'endurance !")
-                return
+        deplacements = {
+            "Nord": (0, 1),
+            "Sud": (0, -1),
+            "Est": (1, 0),
+            "Ouest": (-1, 0)
+        }
 
-            else:
-                if direction == "Nord":
-                    if nouvelle_y == 9:
-                        print(f"{self.nom} ne peut pas se déplacer au nord, étant déjà à la limite du Nord de la map")
-                        return
-                    else:
-                        nouvelle_y += 1
-                        self.endu -= endu_conso
-                        print(f"{self.nom} se déplace vers le Nord et consomme {endu_conso} d'endurance ! Endurance restante : {self.endu}")
-                elif direction == "Sud":
-                    if nouvelle_y == 0:
-                        print(f"{self.nom} ne peut pas se déplacer vers le sud, étant déjà à la limite du Sud de la map")
-                        return
-                    else:
-                        nouvelle_y += 1
-                        self.endu -= endu_conso
-                        print(f"{self.nom} se déplace vers le Sud et consomme {endu_conso} d'endurance ! Endurance restante : {self.endu}")
-                elif direction == "Est":
-                    if nouvelle_x == 9:
-                        print(f"{self.nom} ne peut pas se déplacer vers l'Est, étant déjà à la limite de l'Est de la map")
-                        return
-                    else:
-                        nouvelle_x += 1
-                        self.endu -= endu_conso
-                        print(f"{self.nom} se déplace vers l'Est et consomme {endu_conso} d'endurance ! Endurance restante : {self.endu}")
-                elif direction == "Ouest":
-                    if nouvelle_x == 0:
-                        print(f"{self.nom} ne peut pas se déplacer vers l'Ouest, étant déjà à la limite de l'Ouest de la map")
-                        return
-                    else:
-                        nouvelle_x -= 1
-                        self.endu -= endu_conso
-                        print(f"{self.nom} se déplace vers l'Ouest et consomme {endu_conso} d'endurance ! Endurance restante : {self.endu}")
+        if direction not in deplacements:
+            print(f"Direction invalide : {direction}")
+            return None
 
+        dx, dy = deplacements[direction]
+        nouvelle_x = self.x + dx
+        nouvelle_y = self.y + dy
+
+        if not (0 <= nouvelle_x < 10 and 0 <= nouvelle_y < 10):
+            print(f"{self.nom} ne peut pas se déplacer vers {direction}, limite atteinte.")
+            return None
+
+        charge = self.arme_equipee.poids if self.arme_equipee else 0
         if self.bouclier_equipe:
-            charge = self.arme_equipee.poids + self.bouclier_equipe.poids
-            endu_conso = charge/(self.force*1000)
-            if self.endu < endu_conso:
-                print(f"{self.nom} ne peut pas se déplacer car il n'a pas assez d'endurance !")
-                return
+            charge += self.bouclier_equipe.poids
 
-            else:
-                if direction == "Nord":
-                    if nouvelle_y == 9:
-                        print(f"{self.nom} ne peut pas se déplacer au nord, étant déjà à la limite du Nord de la map")
-                        return
-                    else:
-                        nouvelle_y += 1
-                        self.endu -= endu_conso
-                        print(f"{self.nom} se déplace vers le Nord et consomme {endu_conso} d'endurance ! Endurance restante : {self.endu}")
-                elif direction == "Sud":
-                    if nouvelle_y == 0:
-                        print(f"{self.nom} ne peut pas se déplacer vers le sud, étant déjà à la limite du Sud de la map")
-                        return
-                    else:
-                        nouvelle_y += 1
-                        self.endu -= endu_conso
-                        print(f"{self.nom} se déplace vers le Sud et consomme {endu_conso} d'endurance ! Endurance restante : {self.endu}")
-                elif direction == "Est":
-                    if nouvelle_x == 9:
-                        print(f"{self.nom} ne peut pas se déplacer vers l'Est, étant déjà à la limite de l'Est de la map")
-                        return
-                    else:
-                        nouvelle_x += 1
-                        self.endu -= endu_conso
-                        print(f"{self.nom} se déplace vers l'Est et consomme {endu_conso} d'endurance ! Endurance restante : {self.endu}")
-                elif direction == "Ouest":
-                    if nouvelle_x == 0:
-                        print(f"{self.nom} ne peut pas se déplacer vers l'Ouest, étant déjà à la limite de l'Ouest de la map")
-                        return
-                    else:
-                        nouvelle_x -= 1
-                        self.endu -= endu_conso
-                        print(f"{self.nom} se déplace vers l'Ouest et consomme {endu_conso} d'endurance ! Endurance restante : {self.endu}")
+        endu_conso = charge / (self.force * 1000)
 
+        if self.endu < endu_conso:
+            print(f"{self.nom} n'a pas assez d'endurance pour se déplacer.")
+            return None
 
+        return nouvelle_x, nouvelle_y, endu_conso
+    
     # Dormir
     def dormir(self):
         self.points_de_vie = min(self.points_de_vie + 1, self.pvmax)
         self.endu = min(self.endu + 2, self.endumax)
         print(f"{self.nom} décide de dormir et récupère 1 pv et 2 points d'endurance  ! Endurance : {self.endu}/{self.endumax} | Pv : {self.points_de_vie}/{self.pvmax}")
 
+    # Fuir
     def fuir(self):
-        if not self.bouclier_equipe:
-            charge = self.arme_equipee.poids
-            endu_conso = charge/(self.force*1000)
-            if self.endu < endu_conso:
-                print(f"{self.nom} ne peut pas fuir car il n'a pas assez d'endurance !")
-                return
-
-            else:
-                if self.y == 9:
-                    self.y -= 2
-                    self.endu -= endu_conso
-                    print(f"{self.nom} fuit vers le Sud et consomme {endu_conso} d'endurance !")
-                elif self.y == 0:
-                    self.y += 2
-                    self.endu -= endu_conso
-                    print(f"{self.nom} fuit vers le Nord et consomme {endu_conso} d'endurance !")
-                elif self.x == 9:
-                    self.x -= 2
-                    self.endu -= endu_conso
-                    print(f"{self.nom} fuit vers l'Ouest et consomme {endu_conso} d'endurance !")
-                elif self.x == 0:
-                    self.x += 2
-                    self.endu -= endu_conso
-                    print(f"{self.nom} fuit vers l'Est et consomme {endu_conso} d'endurance !")
-
+        charge = self.arme_equipee.poids if self.arme_equipee else 0
         if self.bouclier_equipe:
-            charge = self.arme_equipee.poids + self.bouclier_equipe.poids
-            endu_conso = charge/(self.force*1000)
-            if self.endu < endu_conso:
-                print(f"{self.nom} ne peut pas fuir car il n'a pas assez d'endurance !")
-                return
+            charge += self.bouclier_equipe.poids
 
-            else:
-                if self.y == 9:
-                    self.y -= 2
-                    self.endu -= endu_conso
-                    print(f"{self.nom} fuit vers le Sud et consomme {endu_conso} d'endurance !")
-                elif self.y == 0:
-                    self.y += 2
-                    self.endu -= endu_conso
-                    print(f"{self.nom} fuit vers le Nord et consomme {endu_conso} d'endurance !")
-                elif self.x == 9:
-                    self.x -= 2
-                    self.endu -= endu_conso
-                    print(f"{self.nom} fuit vers l'Ouest et consomme {endu_conso} d'endurance !")
-                elif self.x == 0:
-                    self.x += 2
-                    self.endu -= endu_conso
-                    print(f"{self.nom} fuit vers l'Est et consomme {endu_conso} d'endurance !")
+        endu_conso = charge / (self.force * 1000)
+
+        if self.endu < endu_conso:
+            print(f"{self.nom} ne peut pas fuir car il n'a pas assez d'endurance !")
+            return None
+
+        # Déterminer la direction de fuite
+        if self.y == 9:
+            nouvelle_x, nouvelle_y = self.x, max(0, self.y - 2)
+            direction = "Sud"
+        elif self.y == 0:
+            nouvelle_x, nouvelle_y = self.x, min(9, self.y + 2)
+            direction = "Nord"
+        elif self.x == 9:
+            nouvelle_x, nouvelle_y = max(0, self.x - 2), self.y
+            direction = "Ouest"
+        elif self.x == 0:
+            nouvelle_x, nouvelle_y = min(9, self.x + 2), self.y
+            direction = "Est"
+        else:
+            # Fuite par défaut vers le Sud si possible
+            nouvelle_x, nouvelle_y = self.x, max(0, self.y - 2)
+            direction = "Sud"
+
+        return nouvelle_x, nouvelle_y, endu_conso, direction
