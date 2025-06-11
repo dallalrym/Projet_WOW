@@ -50,14 +50,11 @@ L'équipe perdante est celle dont tous les membres sont morts
    ```
    
 2) Installer Python s'il n'est pas déjà installer :
-   L'installer depuis le Microsoft Store en allant sur ce lien : https://apps.microsoft.com/detail/9pnrbtzxmb4z?hl=fr-fr&gl=FR&ocid=pdpshare
+   L'installer depuis le Microsoft Store (Prioriser cette méthode) en allant sur ce lien : https://apps.microsoft.com/detail/9pnrbtzxmb4z?hl=fr-fr&gl=FR&ocid=pdpshare
 
    ou bien en le téléchargent ici : https://www.python.org/downloads/
 
-4) Si vous venez de l'installer, ouvrir le projet dans un éditeur de code (Ex : VS Code)
-   - Sélectionnez l'interprète Python que vous venez d'installer
-
-5) Ouvrez un invite de commande à la racine du projet puis tapez cette commande :
+3) Ouvrez un invite de commande à la racine du projet puis tapez cette commande :
    ```bash
    python main.py
    ```
