@@ -39,3 +39,22 @@ L'équipe perdante est celle dont tous les membres sont morts
    - Une action est choisie aléatoirement pour chaque personnage
    - Si une attaque est possible (personnage adjacent), elle a lieu
    - Le jeu continue jusqu'à la défaite d'une équipe
+
+## Lancement du jeu
+
+1) Cloner le projet
+   ```bash
+   git clone https://github.com/dallalrym/Projet_WOW.git
+   cd projet_wow
+   ```
+   
+2) Installer Python s'il n'est pas déjà installer :
+   L'installer depuis le Microsoft Store ou bien en le téléchargent ici : https://www.python.org/downloads/
+
+3) Si vous venez de l'installer, ouvrir le projet dans un éditeur de code (Ex : VS Code)
+   - Sélectionnez l'interprète Python que vous venez d'installer
+
+4) Ouvrez un invite de commande à la racine du projet puis tapez cette commande :
+   ```bash
+   python main.py
+   ```
