@@ -3,3 +3,4 @@ Ce projet est une simulation de jeu de rôles en tour par tour, inspiré de m"ca
 
 # Fonctionnalités principales
 ## Carte de jeu
+### Grille 10x10 représentant l'univers du jeu.
