@@ -1,7 +1,13 @@
 class Zone:
-    def __init__(self):
-        self.grille = [[None for _ in range(10)] for _ in range(10)]
+    
+    _instance = None
 
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(Zone, cls).__new__(cls)
+            # Initialisation de l'instance
+            cls._instance.grille = [[None for _ in range(10)] for _ in range(10)]
+        return cls._instance
     
     def placer_personnage(self, personnage):
         # Nettoyer toute ancienne position du personnage
