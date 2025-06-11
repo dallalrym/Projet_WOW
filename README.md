@@ -1,4 +1,4 @@
-# Jeu de rôle - WOW
+# 🧙‍♂️ Jeu de rôle - WOW
 Ce projet est une simulation de jeu de rôles en tour par tour, inspiré de mécaniques classiques (RPG). Nous avons choisi de le développer en Python. Il met en scène 2 équipes (héros et monstres) évoluant sur une carte en 2D.
 
 ## Fonctionnalités principales
@@ -31,7 +31,7 @@ Héros ou Monstres avec :
 
 L'équipe perdante est celle dont tous les membres sont morts
 
-## Déroulement du jeu
+## 🗺️ Déroulement du jeu
 
 1) Création de 2 équipes égales : une de héros, une de monstres
 2) Chaque personnage est équipé (armes, boucliers, objets) et positionné aléatoirement sur la carte (cases non partagées)
@@ -40,7 +40,7 @@ L'équipe perdante est celle dont tous les membres sont morts
    - Si une attaque est possible (personnage adjacent), elle a lieu
    - Le jeu continue jusqu'à la défaite d'une équipe
 
-## Lancement du jeu
+## 🎮 Lancement du jeu
 
 1) Cloner le projet et vérifier que vous vous trouvez dans la branche main en faisant git branch
    ```bash
