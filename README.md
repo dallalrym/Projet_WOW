@@ -42,10 +42,11 @@ L'équipe perdante est celle dont tous les membres sont morts
 
 ## Lancement du jeu
 
-1) Cloner le projet
+1) Cloner le projet et vérifier que vous vous trouvez dans la branche main en faisant git branch
    ```bash
    git clone https://github.com/dallalrym/Projet_WOW.git
    cd projet_wow
+   git branch
    ```
    
 2) Installer Python s'il n'est pas déjà installer :
