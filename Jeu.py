@@ -128,14 +128,12 @@ class Jeu:
 
         # Afficher la zone après chaque tour
         self.zone.afficher_zone()
-        
+    
+    # Vérifie si la zone est une même instance
     def verifier_zone(self):
         zone1 = Zone()
         zone2 = Zone()
         print(f"zone1 est zone2 ? {zone1 is zone2}")
-
-    def afficher_adresse_zone(self):
-        print(f"Adresse de l'instance de Zone : {id(self.zone)}")
 
     def demarrer(self):
     # Préparer le jeu en créant les équipes et en plaçant les personnages
